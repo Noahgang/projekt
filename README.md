@@ -1,1 +1,2 @@
-# projekt
+# Cat Images
+This tutorial provides an overview of the Python script that interacts with the user to download images of HTTP status codes from the http.cat website because who doesn't love cats? It offers to save the images in either a YAML file format, as a JPG file, or both if you want.
