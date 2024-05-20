@@ -14,7 +14,7 @@ numbers = [
 def get_random_number():
     return random.choice(numbers)
 
-def main():
+def catermain():
     while True:
         user_input = input("Enter status code number, type 'random' for a random cat image, or 'stop' to exit: ")
 
@@ -34,7 +34,7 @@ def main():
         url = f"https://http.cat/{status_code}"
 
         try:
-            with open("src/config.yaml", "r") as file:
+            with open("src/cat.yaml", "r") as file:
                 data = yaml.safe_load(file)
             if data is None:
                 data = {}
@@ -49,7 +49,7 @@ def main():
             if print_format == '1' or print_format == '3':
                 encoded_image = base64.b64encode(response.content).decode('utf-8')
                 data['image'] = encoded_image
-                with open("src/config.yaml", "w") as file:
+                with open("src/cat.yaml", "w") as file:
                     yaml.safe_dump(data, file)
                 print("YAML file updated successfully.")
             
@@ -65,4 +65,4 @@ def main():
             print("Failed to retrieve the image.")
 
 if __name__ == "__main__":
-    main()
+    catermain()
