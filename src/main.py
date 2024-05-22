@@ -2,7 +2,7 @@ import random
 import requests
 import yaml
 import base64
-
+import os
 numbers = [
     100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 207, 208, 214, 226, 300, 
     301, 302, 303, 304, 305, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 
@@ -34,7 +34,7 @@ def catermain():
         url = f"https://http.cat/{status_code}"
 
         try:
-            with open("src/cat.yaml", "r") as file:
+            with open(f"src/catfiles/cat_file(s)_{status_code}/cat_{status_code}.yaml", "r") as file:
                 data = yaml.safe_load(file)
             if data is None:
                 data = {}
@@ -45,24 +45,27 @@ def catermain():
 
         if response.status_code == 200:
             print_format = input("Choose the file format to create:\n1. YAML file only\n2. JPG file only\n3. Both files\n")
+            directory_path = f"src/catfiles/cat_file(s)_{status_code}"
+            os.makedirs(directory_path, exist_ok=True)
 
             if print_format == '1' or print_format == '3':
                 encoded_image = base64.b64encode(response.content).decode('utf-8')
                 data['image'] = encoded_image
-                with open("src/cat.yaml", "w") as file:
+                yaml_path = f"src/catfiles/cat_file(s)_{status_code}/cat_{status_code}.yaml"
+                with open(yaml_path, "w") as file:
                     yaml.safe_dump(data, file)
-                print("YAML file updated successfully.")
+                print(f"YAML file saved as cat_{status_code}.yaml")
             
             if print_format == '2' or print_format == '3':
-                image_path = f"cat_{status_code}.jpg"
+                image_path = f"src/catfiles/cat_file(s)_{status_code}/cat_{status_code}.jpg"
                 with open(image_path, "wb") as file:
                     file.write(response.content)
-                print(f"Image saved successfully as {image_path}.")
+                print(f"Image saved as cat_{status_code}.jpg")
 
             if print_format not in ['1', '2', '3']:
                 print("Invalid choice. Please enter 1, 2, or 3.")
         else:
-            print("Failed to retrieve the image.")
+            print("Failed to retrieve the image, and/or yaml file")
 
 if __name__ == "__main__":
     catermain()
